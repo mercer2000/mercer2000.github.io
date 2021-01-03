@@ -83,33 +83,33 @@
         getData();
   
 
-function getData() {
-  $.ajax({
-    url: 'https://jsfiddle.net/echo/jsonp/',
-    method: 'GET',
-    data: {
-      array: a1
-    },
-    dataType: "jsonp",
-    error: function(xhr, status, error) {
-      console.log(status, error);
-    },
-    success: function(json) {
-      console.log(json);
-      var tr;
-      $.each(a1, function(k, v) {
-        tr = $("<tr></tr>");
-        tr.append("<td>" + v.name + "</td>");
-        tr.append("<td>" + v.category + "</td>");
-        tr.append("<td>" + v.amount + "</td>");
-        tr.append("<td>" + v.location + "</td>");
-        tr.append("<td>" + v.date + "</td>");
-        $("#invList").append(tr);
-      });
-    }
-  });
-}
-});
+          function getData() {
+            $.ajax({
+              url: 'cooking.json',
+              method: 'GET',
+              data: {
+                array: a1
+              },
+              dataType: "jsonp",
+              error: function(xhr, status, error) {
+                console.log(status, error);
+              },
+              success: function(json) {
+                console.log(json);
+                var tr;
+                $.each(json, function(k, v) {
+                  tr = $("<tr></tr>");
+                  tr.append("<td>" + v.name + "</td>");
+                  tr.append("<td>" + v.category + "</td>");
+                  tr.append("<td>" + v.amount + "</td>");
+                  tr.append("<td>" + v.location + "</td>");
+                  tr.append("<td>" + v.date + "</td>");
+                  $("#invList").append(tr);
+                });
+              }
+            });
+          }
+          });
   
       
       </script>
