@@ -90,12 +90,11 @@
               success: function(json) {
                 console.log(json);
                 var tr;
-                var x;
+                var x = 0;
                 $.each(json, function(k, v) {
 
-                  x = x+1;
-                  tr = $("<tr></tr>");
-                  
+                  x = x + 1;
+                  tr = $("<tr></tr>");                  
                   tr.append("<td>" +  x + "</td>");
                   tr.append("<td>" + v.Image + "</td>");
                   tr.append("<td><b>" +  v.Title  + "</b><br/>" + v.Description + "</td>");
