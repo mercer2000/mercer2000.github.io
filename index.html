@@ -1,5 +1,11 @@
 <!DOCTYPE html>
+
+
 <html>
+
+
+  
+
   <head>
     <!-- Basic -->
     <meta charset="utf-8" />
@@ -62,9 +68,50 @@
 
     <!-- Head Libs -->
     <script src="vendor/modernizr/modernizr.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
   </head>
   <body data-spy="scroll" data-target="#sidebar" data-offset="120">
+
+    <script type="text/javascript">
+
+
+      var a1 = [{"category": "Fruit", "name": "Banana", "amount": 15, "location": "Amsterdam", "date": "2014-10-05", "id": 13844}, {"category": "Fruit", "name": "Apple", "amount": 58, "location": "Amsterdam", "date": "2014-02-05", "id": 13845}, {"category": "Furniture", "name": "Chair", "amount": 3, "location": "Hilversum", "date": "2014-12-10", "id": 13846}, {"category": "Furniture", "name": "Table", "amount": 5, "location": "Rotterdam", "date": "2011-07-13", "id": 13847}];
+      
+      $(document).ready(function() {
+      
+        getData();
+      
+        function getData() {
+          $.ajax({
+            url: 'cooking.json',
+            method: 'GET',
+            dataType: "jsonp",
+            error: function(xhr, status, error) {
+              console.log(status, error);
+            },
+            success: function(json) {
+              console.log(json);
+              var tr;
+              $.each(json, function(k, v) {
+                tr = $("<tr></tr>");
+                tr.append("<td>" + v.name + "</td>");
+                tr.append("<td>" + v.category + "</td>");
+                tr.append("<td>" + v.amount + "</td>");
+                tr.append("<td>" + v.location + "</td>");
+                tr.append("<td>" + v.date + "</td>");
+                $("#invList").append(tr);
+              });
+            }
+          });
+        }
+      });
+      
+      </script>
+
     <div class="body">
+
+
       <header
         id="header"
         class="header-effect-shrink"
@@ -531,6 +578,19 @@
           </div>
         </div>
       </div>
+
+
+      
+      <h1> Inventory List </h1>
+<table id="invList">
+  <tr>
+    <th> Name of product</th>
+    <th> Category</th>
+    <th> Amount</th>
+    <th> Location</th>
+    <th> Date</th>
+  </tr>
+</table>
 
       <section>
         <div class="container py-2">
