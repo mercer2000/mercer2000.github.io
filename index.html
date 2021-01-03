@@ -77,11 +77,11 @@
    
       $(document).ready(function() {
       
-        getData();
+        getData( "cooking.json", "#invList");
 
-        function getData() {
+        function getData( fileName, tableName ) {
             $.ajax({
-              url: 'cooking.json',
+              url: fileName,
               method: 'GET',
               dataType: "json",
               error: function(xhr, status, error) {
@@ -97,7 +97,7 @@
                   tr.append("<td>" + v.amount + "</td>");
                   tr.append("<td>" + v.location + "</td>");
                   tr.append("<td>" + v.date + "</td>");
-                  $("#invList").append(tr);
+                  $(tableName).append(tr);
                 });
               }
             });
