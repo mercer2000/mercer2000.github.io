@@ -77,7 +77,7 @@
    
       $(document).ready(function() {
       
-        getData( "cooking.json", "#invList");
+        getData( "cooking.json", "#cooking");
 
         function getData( fileName, tableName ) {
             $.ajax({
@@ -92,11 +92,11 @@
                 var tr;
                 $.each(json, function(k, v) {
                   tr = $("<tr></tr>");
-                  tr.append("<td>" + v.name + "</td>");
-                  tr.append("<td>" + v.category + "</td>");
-                  tr.append("<td>" + v.amount + "</td>");
-                  tr.append("<td>" + v.location + "</td>");
-                  tr.append("<td>" + v.date + "</td>");
+                 
+                  tr.append("<td>" + v.title + "</td>");
+                  tr.append("<td>" + v.image + "</td>");
+                  tr.append("<td>" + v.description + "</td>");
+                  tr.append("<td>" + v.link + "</td>");
                   $(tableName).append(tr);
                 });
               }
@@ -664,7 +664,7 @@
 
              
                 <div class="row">
-                  <table class="table table-bordered">
+                  <table id="cooking" class="table table-bordered">
                     <thead>
                       <tr>
                         <th>#</th>
