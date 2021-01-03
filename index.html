@@ -74,22 +74,15 @@
   <body data-spy="scroll" data-target="#sidebar" data-offset="120">
 
     <script type="text/javascript">
-
-
-      var a1 = [{"category": "Fruit", "name": "Banana", "amount": 15, "location": "Amsterdam", "date": "2014-10-05", "id": 13844}, {"category": "Fruit", "name": "Apple", "amount": 58, "location": "Amsterdam", "date": "2014-02-05", "id": 13845}, {"category": "Furniture", "name": "Chair", "amount": 3, "location": "Hilversum", "date": "2014-12-10", "id": 13846}, {"category": "Furniture", "name": "Table", "amount": 5, "location": "Rotterdam", "date": "2011-07-13", "id": 13847}];
-      
+   
       $(document).ready(function() {
       
         getData();
-  
 
-          function getData() {
+        function getData() {
             $.ajax({
               url: 'cooking.json',
               method: 'GET',
-              data: {
-                array: a1
-              },
               dataType: "jsonp",
               error: function(xhr, status, error) {
                 console.log(status, error);
