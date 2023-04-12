@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Page</title>
+    <script src="https://statics.teams.cdn.office.net/sdk/v1.10.0/js/MicrosoftTeams.min.js"></script>
+</head>
+<body>
+    <h1>Select a channel</h1>
+    <input type="text" id="searchInput" placeholder="Search channels">
+    <ul id="channelList"></ul>
+    <button id="saveButton" disabled>Save</button>
+
+    <script>
+        microsoftTeams.initialize();
+
+        let selectedChannelId = null;
+        const saveButton = document.getElementById("saveButton");
+        const searchInput = document.getElementById("searchInput");
+        const channelList = document.getElementById("channelList");
+
+        microsoftTeams.getContext(function (context) {
+            microsoftTeams.channels.getChannels(function (err, channels) {
+                displayChannels(channels);
+
+                searchInput.addEventListener("input", function () {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const filteredChannels = channels.filter(channel => channel.displayName.toLowerCase().includes(searchTerm));
+                    displayChannels(filteredChannels);
+                });
+            });
+        });
+
+        function displayChannels(channels) {
+            channelList.innerHTML = "";
+
+            channels.forEach(channel => {
+                const li = document.createElement("li");
+                li.textContent = channel.displayName;
+                li.addEventListener("click", function () {
+                    selectedChannelId = channel.id;
+                    saveButton.disabled = false;
+                });
+
+                channelList.appendChild(li);
+            });
+        }
+
+        saveButton.addEventListener("click", function () {
+            const settings = {
+                contentUrl: "https://your-domain.com/your-tab.html?channelId=" + selectedChannelId,
+                entityId: "your-entity-id",
+                suggestedDisplayName: "Your Tab Name"
+            };
+
+            microsoftTeams.settings.setSettings(settings);
+            microsoftTeams.settings.setValidityState(true);
+        });
+    </script>
+</body>
+</html>
