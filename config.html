@@ -16,6 +16,7 @@
 
     <script>
         microsoftTeams.initialize();
+        microsoftTeams.settings.setValidityState(true);
 
         let selectedChannelId = null;
         const saveButton = document.getElementById("saveButton");
@@ -57,11 +58,12 @@
 
             // Send the selected channel ID to your web API
             fetch("https://excelteams.ngrok.io/api/config/saveChannel", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+               method: "POST",
+               headers: {
+               "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ channelId: selectedChannelId })
+                body: JSON.stringify({ channelId: selectedChannelId, userId: userId })
+
             })
                 .then(response => {
                     if (response.ok) {
