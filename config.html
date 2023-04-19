@@ -56,7 +56,7 @@
             const selectedChannelId = document.getElementById("channelDropdown").value;
 
             // Send the selected channel ID to your web API
-            fetch("https://excelteams.ngrok.io/api/saveChannel", {
+            fetch("https://excelteams.ngrok.io/api/config/saveChannel", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -66,7 +66,7 @@
                 .then(response => {
                     if (response.ok) {
                         const settings = {
-                            contentUrl: "https://your-domain.com/your-tab.html?channelId=" + selectedChannelId,
+                            contentUrl: "https://awardastar.com/index.html?channelId=" + selectedChannelId,
                             entityId: "your-entity-id",
                             suggestedDisplayName: "Your Tab Name"
                         };
