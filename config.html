@@ -1,100 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuration Page</title>
-    <script src="https://statics.teams.cdn.office.net/sdk/v1.10.0/js/MicrosoftTeams.min.js"></script>
-</head>
-
+    <script src="https://res.cdn.office.net/teams-js/2.2.0/js/MicrosoftTeams.min.js" 
+      integrity="sha384yBjE++eHeBPzIg+IKl9OHFqMbSdrzY2S/LW3qeitc5vqXewEYRWegByWzBN/chRh" 
+      crossorigin="anonymous" >
+    </script>
 <body>
-    <h1>Select a channel</h1>
-    <input type="text" id="searchInput" placeholder="Search channels">
-    <ul id="channelList"></ul>
-    <button id="saveButton" disabled>Save</button>
+    <button onclick="(document.getElementById('icon').src = '/images/iconGray.png'); colorClickGray()">Select Gray</button>
+    <img id="icon" src="/images/teamsIcon.png" alt="icon" style="width:100px" />
+    <button onclick="(document.getElementById('icon').src = '/images/iconRed.png'); colorClickRed()">Select Red</button>
 
     <script>
-        microsoftTeams.initialize();
-        microsoftTeams.settings.setValidityState(true);
-
-        let selectedChannelId = null;
-        const saveButton = document.getElementById("saveButton");
-        const searchInput = document.getElementById("searchInput");
-        const channelList = document.getElementById("channelList");
-
-        microsoftTeams.getContext(function (context) {
-             // Get the user's ID from the context
-            userId = context.userObjectId;
-            // Get the list of team channels.
-            microsoftTeams.channels.getChannels(function (err, channels) {
-                displayChannels(channels);
-
-                searchInput.addEventListener("input", function () {
-                    const searchTerm = searchInput.value.toLowerCase();
-                    const filteredChannels = channels.filter(channel => channel.displayName.toLowerCase().includes(searchTerm));
-                    displayChannels(filteredChannels);
+        await microsoftTeams.app.initialize();
+        let saveGray = () => {
+            microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+                const configPromise = pages.config.setConfig({
+                    websiteUrl: "https://yourWebsite.com",
+                    contentUrl: "https://yourWebsite.com/gray",
+                    entityId: "grayIconTab",
+                    suggestedDisplayName: "MyNewTab"
                 });
-            });
-        });
-
-        function displayChannels(channels) {
-            channelList.innerHTML = "";
-
-            channels.forEach(channel => {
-                const li = document.createElement("li");
-                li.textContent = channel.displayName;
-                li.addEventListener("click", function () {
-                    selectedChannelId = channel.id;
-                    saveButton.disabled = false;
-                });
-
-                channelList.appendChild(li);
+                configPromise.
+                    then((result) => {saveEvent.notifySuccess()}).
+                    catch((error) => {saveEvent.notifyFailure("failure message")});
             });
         }
 
-        saveButton.addEventListener("click", function () {
-            const selectedChannelId = document.getElementById("channelDropdown").value;
-
-            // Send the selected channel ID to your web API
-            fetch("https://excelteams.ngrok.io/api/config/saveChannel", {
-               method: "POST",
-               headers: {
-               "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ channelId: selectedChannelId, userId: userId })
-
-            })
-                .then(response => {
-                    if (response.ok) {
-                        const settings = {
-                            contentUrl: "https://awardastar.com/index.html?channelId=" + selectedChannelId,
-                            entityId: "your-entity-id",
-                            suggestedDisplayName: "Your Tab Name"
-                        };
-
-                        microsoftTeams.settings.setSettings(settings);
-                        microsoftTeams.settings.setValidityState(true);
-                    } else {
-                        // Handle error
-                    }
-                })
-                .catch(error => {
-                    // Handle network error
+        let saveRed = () => {
+            microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+                const configPromise = pages.config.setConfig({
+                    websiteUrl: "https://yourWebsite.com",
+                    contentUrl: "https://yourWebsite.com/red",
+                    entityId: "redIconTab",
+                    suggestedDisplayName: "MyNewTab"
                 });
-        });
+                configPromise.
+                    then((result) => {saveEvent.notifySuccess();}).
+                    catch((error) => {saveEvent.notifyFailure("failure message")});
+            });
+        }
 
-        // saveButton.addEventListener("click", function () {
-        //     const settings = {
-        //         contentUrl: "https://your-domain.com/your-tab.html?channelId=" + selectedChannelId,
-        //         entityId: "your-entity-id",
-        //         suggestedDisplayName: "Your Tab Name"
-        //     };
-        //     microsoftTeams.settings.setSettings(settings);
-        //     microsoftTeams.settings.setValidityState(true);
-        // });
-        
+        let gr = document.getElementById("gray").style;
+        let rd = document.getElementById("red").style;
+
+        const colorClickGray = () => {
+            gr.display = "block";
+            rd.display = "none";
+            microsoftTeams.pages.config.setValidityState(true);
+            saveGray()
+        }
+
+        const colorClickRed = () => {
+            rd.display = "block";
+            gr.display = "none";
+            microsoftTeams.pages.config.setValidityState(true);
+            saveRed();
+        }
     </script>
+    ...
 </body>
-
-</html>
