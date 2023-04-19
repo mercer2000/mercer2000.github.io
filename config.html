@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuration Page</title>
     <script src="https://statics.teams.cdn.office.net/sdk/v1.10.0/js/MicrosoftTeams.min.js"></script>
 </head>
+
 <body>
     <h1>Select a channel</h1>
     <input type="text" id="searchInput" placeholder="Search channels">
@@ -48,15 +50,46 @@
         }
 
         saveButton.addEventListener("click", function () {
-            const settings = {
-                contentUrl: "https://your-domain.com/your-tab.html?channelId=" + selectedChannelId,
-                entityId: "your-entity-id",
-                suggestedDisplayName: "Your Tab Name"
-            };
+            const selectedChannelId = document.getElementById("channelDropdown").value;
 
-            microsoftTeams.settings.setSettings(settings);
-            microsoftTeams.settings.setValidityState(true);
+            // Send the selected channel ID to your web API
+            fetch("https://excelteams.ngrok.io/api/saveChannel", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ channelId: selectedChannelId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const settings = {
+                            contentUrl: "https://your-domain.com/your-tab.html?channelId=" + selectedChannelId,
+                            entityId: "your-entity-id",
+                            suggestedDisplayName: "Your Tab Name"
+                        };
+
+                        microsoftTeams.settings.setSettings(settings);
+                        microsoftTeams.settings.setValidityState(true);
+                    } else {
+                        // Handle error
+                    }
+                })
+                .catch(error => {
+                    // Handle network error
+                });
         });
+
+        // saveButton.addEventListener("click", function () {
+        //     const settings = {
+        //         contentUrl: "https://your-domain.com/your-tab.html?channelId=" + selectedChannelId,
+        //         entityId: "your-entity-id",
+        //         suggestedDisplayName: "Your Tab Name"
+        //     };
+        //     microsoftTeams.settings.setSettings(settings);
+        //     microsoftTeams.settings.setValidityState(true);
+        // });
+        
     </script>
 </body>
+
 </html>
