@@ -23,6 +23,9 @@
         const channelList = document.getElementById("channelList");
 
         microsoftTeams.getContext(function (context) {
+             // Get the user's ID from the context
+            userId = context.userObjectId;
+            // Get the list of team channels.
             microsoftTeams.channels.getChannels(function (err, channels) {
                 displayChannels(channels);
 
